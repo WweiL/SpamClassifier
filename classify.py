@@ -4,6 +4,7 @@ import sys
 import time
 import os
 import functools
+import process_test_data as ptd
 
 RATE = 0.75
 TESTFILE = "emaildata/TestSet_phase1.txt"
@@ -85,12 +86,14 @@ if __name__ == '__main__':
 
     print('generating prediction result..')
     classifier = make_classifier(view, inv_idx, fwd_idx)
-    testfile = sys.argv[1]
-    testfolder = testfile.split('/')[1].split('.')[0]
+    testfile = sys.argv[1].split('/')[1]
+    testfolder = testfile.split('.')[0]
     if testfolder not in os.listdir(DATASETFOLDER_TEST):
-        process_test_data(testfile, testfolder)
-    set_corpus(testfolder)
+        ptd.process_test_data(testfile, testfolder)
+
+    #set_corpus(testfolder)
     set_corpus_cheat(testfolder)
+
     t_idx = metapy.index.make_forward_index(cfg_test)
     tset = metapy.classify.MulticlassDataset(t_idx)
     tview = metapy.classify.MulticlassDatasetView(tset)
@@ -100,4 +103,5 @@ if __name__ == '__main__':
         res += "1\n" if classifier.classify(v.weights) == 'spam' else "0\n"
     with open('output.txt', 'w+') as f:
         f.write(res)
+
     print('done!')

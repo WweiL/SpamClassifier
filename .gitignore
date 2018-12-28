@@ -3,3 +3,4 @@ idx/
 idx_test/
 emaildata/*/
 testdata/*/
+__pycache__/
