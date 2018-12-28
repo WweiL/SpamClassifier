@@ -1,0 +1,4 @@
+# file: file.toml
+type = "file-corpus"
+list = "emaildata"
+encoding = "shift_jis"
